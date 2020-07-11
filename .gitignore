@@ -127,3 +127,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+.vscode/launch.json
+prod/main.py
+prod/pingscanner.py
+prod/Pipfile
+prod/Pipfile.lock
+prod/portscanner.py
+output.json
+proxy.json
+test.py
