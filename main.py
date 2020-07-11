@@ -72,6 +72,8 @@ def main():
         
 
     rng = input("Enter ip range: ")
+    min_port = int(input("Enter minimum port: "))
+    max_port = int(input("Enter maximum port: "))
     print('Scanning for alive hosts...')
     ips = PingScanner(rng).scan()
     if len(ips) > 0:
@@ -96,7 +98,7 @@ def main():
 
         print(f'Reversed DNS: {reversed_dns}')
         ips_dict[ip]['reversed_dns'] = reversed_dns
-        prt_scnr = PortScanner(ip)
+        prt_scnr = PortScanner(ip, min_port=min_port, max_port=max_port)
         prt_scnr.set_proxy(**proxy)
         ips_dict[ip]['ports'] = prt_scnr.scan()
     print()

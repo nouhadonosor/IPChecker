@@ -1,6 +1,7 @@
 import threading, socket, sys, time
 #from queue import Queue
 from multiprocessing.pool import ThreadPool
+from multiprocessing import Manager
 import socks
 """
 socks.set_default_proxy(
@@ -13,13 +14,14 @@ socks.set_default_proxy(
     )
 """
 class PortScanner:
-    def __init__(self, host, min_port=1, max_port=65536):
+    def __init__(self, host, min_port=1, max_port=65535):
         self.__lock = threading.Lock()
 
         self.__host = host
         self.__min_port = min_port
         self.__max_port = max_port
         self.__open_ports = []
+        self.__ports_range = range(self.__min_port, self.__max_port + 1)
 
         self.__proxy_type = None
         self.__proxy_addr = None
@@ -62,8 +64,8 @@ class PortScanner:
 
     def scan(self):
         
-        p = ThreadPool(5000)
-        p.map(self.__wrapper, range(self.__min_port, self.__max_port))
+        p = ThreadPool(1000)
+        p.map(self.__wrapper, self.__ports_range)
 
         p.close()
         p.join()
